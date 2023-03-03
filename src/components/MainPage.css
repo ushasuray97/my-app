@@ -1,0 +1,57 @@
+ /* MainPage.css
+
+/* Style for the heading */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Style for the search bar */
+  input[type="text"] {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+    margin-right: 0.5rem;
+  }
+  
+  button {
+    padding: 0.5rem 1rem;
+    background-color: #0077cc;
+    color: #fff;
+    border-radius: 0.25rem;
+    border: none;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Style for the question item */
+  li {
+    margin-bottom: 1rem;
+    /* border: 1px solid #ccc; */
+    /* border-radius: 0.25rem; */
+    padding: 1rem;
+  }
+  
+  li h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  
+  .main-page-container {
+    display: grid;
+    /* flex-wrap: wrap; */
+    grid-template-columns: 75% 25%;
+  }
+  
+  .main-page-container > div {
+    flex: 1;
+    margin-right: 20px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border:2px solid black;
+  }
