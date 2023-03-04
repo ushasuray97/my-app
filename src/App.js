@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AddAnswer from './components/AddAnswer';
 import AddQuestionPage from './components/AddQuestionPage';
-import LoginAndRegistrationPage from './components/LoginAndRegistrationPage';
+import Login from './components/Login';
 import MainPage from './components/MainPage';
-import Navbar from './components/Navbar';
+import Register from './components/Register';
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [questions,setQuestions]=useState('');
   // check if user is logged in on initial load
@@ -16,7 +18,7 @@ function App() {
     const storedProfile = JSON.parse(localStorage.getItem('userProfile'));
     if (storedProfile) {
       setUserProfile(storedProfile);
-      setLoggedIn(true);
+      setIsLoggedIn(true);
     }
   }, []);
 
@@ -31,7 +33,7 @@ function App() {
     const validUser = validateUser(username, password);
     if (validUser) {
       setUserProfile(validUser);
-      setLoggedIn(true);
+      setIsLoggedIn(true);
       return true;
     } else {
       return false;
@@ -87,26 +89,41 @@ function App() {
   
   const handleLogout = () => {
     setUserProfile(null);
-    setLoggedIn(false);
+    setIsLoggedIn(false);
   };
 
   const handleRegistration = (username, password, email) => {
     // create a new user profile and set it as the current user
     const newProfile = createNewUser(username, password, email);
     setUserProfile(newProfile);
-    setLoggedIn(true);
+    setIsLoggedIn(true);
+  };
+
+  const handleAddAnswer = (newAnswer) => {
+    const questionId = newAnswer.questionId;
+    const questionIndex = questions.findIndex((q) => q.id === questionId);
+  
+    if (questionIndex !== -1) {
+      const newQuestions = [...questions];
+      const question = { ...newQuestions[questionIndex] };
+      question.answers.push(newAnswer);
+      newQuestions[questionIndex] = question;
+      setQuestions(newQuestions);
+      localStorage.setItem('questions', JSON.stringify(newQuestions));
+      
+    }
   };
 
   return (
     <Router>
-      <Navbar/>
+      {/* <Navbar/> */}
       <Routes>
-        <Route path="/add-question" element={<AddQuestionPage userProfile={userProfile} questions={questions}/>} />
-        <Route path="/add-answer/:id" element={<AddAnswer userProfile={userProfile} />} />
-        <Route path="/add-answer" element={<AddAnswer userProfile={userProfile} questions={questions}/>} />
-        <Route path="/login" element={<LoginAndRegistrationPage handleLogin={handleLogin} />} />
-        <Route path="/register" element={<LoginAndRegistrationPage handleRegistration={handleRegistration} />} />
-        <Route path="/" element={<MainPage userProfile={userProfile} />} />
+        <Route path="/add-question" element={<AddQuestionPage userProfile={userProfile} questions={questions} setQuestions={setQuestions}/>} />
+        <Route path="/add-answer/:id" element={<AddAnswer onAddAnswer={handleAddAnswer} questions={questions} setQuestions={setQuestions} />}/>
+        <Route path="/add-answer" element={<AddAnswer userProfile={userProfile} questions={questions} setQuestions={setQuestions}/>} />
+        <Route path="/login" element={<Login handleLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} setLoggedInUser={setLoggedInUser}/>} />
+        <Route path="/register" element={<Register handleRegistration={handleRegistration} setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/" element={<MainPage userProfile={userProfile} isLoggedIn={isLoggedIn}/>} />
       </Routes>
     </Router>
   );

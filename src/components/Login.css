@@ -1,0 +1,8 @@
+.login-form{
+    text-align: center;
+    border: 2px solid black;
+    margin: 10px 450px;
+}
+input{
+    width: 50%;
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './AddQuestionPage.css';
 
 const AddQuestionPage = () => {
@@ -9,7 +9,7 @@ const AddQuestionPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const id = new Date().getTime().toString();
+    const id = parseInt(new Date().getTime().toString(),10);
     const newQuestion = { id, title, answer: '' };
     const updatedQuestions = [...JSON.parse(localStorage.getItem('questions') || '[]'), newQuestion];
 
@@ -19,6 +19,8 @@ const AddQuestionPage = () => {
   };
 
   return (
+    <>
+    <Link to={'/'}><h2>Quora</h2></Link>
     <div className="add-question-page">
       <h1>Add Question</h1>
       <form onSubmit={handleSubmit}>
@@ -30,7 +32,9 @@ const AddQuestionPage = () => {
         </button>
       </form>
     </div>
+    </>
   );
+  
 };
 
 export default AddQuestionPage;
