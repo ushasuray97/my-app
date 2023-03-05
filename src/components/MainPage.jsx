@@ -11,6 +11,7 @@ const MainPage = ({isLoggedIn}) => {
     const storedQuestions = JSON.parse(localStorage.getItem('questions')) || [];
     setQuestions(storedQuestions);
     setFilteredQuestions(storedQuestions);
+    console.log(filteredQuestions);
   }, []);
 
   const handleSearch = (e) => {
@@ -56,7 +57,7 @@ const MainPage = ({isLoggedIn}) => {
       <div >   
         <ul>
           <div>
-          {questions.answer&&filteredQuestions.map((question) => (
+          {filteredQuestions.map((question) => (
             <li key={question.id}>
               <h2>{question.title}</h2>
               <p>{question.answer}</p>

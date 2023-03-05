@@ -41,49 +41,28 @@ const AddAnswer = ({ questions, onAddAnswer, setQuestions }) => {
   const handleAnswerChange = (event) => {
     setAnswer(event.target.value);
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     if (selectedQuestion !== '' && answer !== '') {
-      const question = questions.find((q) => q.id === parseInt(selectedQuestion, 10));
-      console.log(question);
-      if (question) {
-        console.log("getting question");
-        const newAnswer = {
-          id: Date.now(),
-          questionId: question.id,
-          answer: answer,
-          username: localStorage.getItem('username'),
+      const questionIndex = questions.findIndex((q) => q.id === parseInt(selectedQuestion, 10));
+      if (questionIndex >= 0) {
+        const question = questions[questionIndex];
+        const updatedAnswer = [...question.answer, answer]; // Add the answer value to the existing answer array
+        const updatedQuestion = {
+          ...question,
+          answer: updatedAnswer,
         };
-  
-        // Add the new answer to the question's answers array
-        const updatedQuestions = questions.map((q) => {
-          if (q.id === question.id) {
-            return {
-              ...q,
-              answers: [...q.answers, newAnswer],
-            };
-          }
-          return q;
-        });
-  
-        // Update the questions state with the new array of questions
+        const updatedQuestions = [        ...questions.slice(0, questionIndex),        updatedQuestion,        ...questions.slice(questionIndex + 1),      ];
         setQuestions(updatedQuestions);
-  
-        // Find the updated question in the updatedQuestions array
-        const updatedQuestion = updatedQuestions.find((q) => q.id === question.id);
-  
-        // Update the question state with the updated question object
+        localStorage.setItem('questions', JSON.stringify(updatedQuestions));
         setQuestion(updatedQuestion);
-  
-        // Clear the answer input
         setAnswer('');
-  
-        // Navigate to the question page
         history('/');
       }
     }
   };
+  
+  
   
   return (
     <>
