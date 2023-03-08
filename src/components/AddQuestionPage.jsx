@@ -21,11 +21,12 @@ const AddQuestionPage = () => {
   return (
     <>
     <Link to={'/'}><h2>Quora</h2></Link>
+    {/* <h1>Add Question</h1> */}
     <div className="add-question-page">
-      <h1>Add Question</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Question Title</label>
-        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+      {/* <h3>Question</h3> */}
+      <form onSubmit={handleSubmit} className="ques">
+        {/* <label htmlFor="title">Question Title</label> */}
+        <input type="text" id="title" value={title} placeholder="Question: Type your question here...." onChange={(e) => setTitle(e.target.value)} />
         <button type="submit">Add Question</button>
         <button type="button" onClick={() => history('/')}>
           Cancel

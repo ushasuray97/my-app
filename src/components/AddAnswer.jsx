@@ -71,7 +71,7 @@ const AddAnswer = ({ questions, onAddAnswer, setQuestions }) => {
       </Link>
       <div className="container">
         <div>
-          <h1>Add Answer</h1>
+          {/* <h1>Add Answer</h1> */}
 
           {questions ? (
             <ul>
@@ -92,11 +92,12 @@ const AddAnswer = ({ questions, onAddAnswer, setQuestions }) => {
         <div>
           <form className="ans-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="answerInput">Answer:</label>
+              {/* <label htmlFor="answerInput">Answer:</label> */}
               <textarea
                 className="form-control"
                 id="answerInput"
-                rows="3"
+                rows="10"
+                placeholder='Answer:Type your answer.....'
                 value={answer}
                 onChange={handleAnswerChange}
               ></textarea>
